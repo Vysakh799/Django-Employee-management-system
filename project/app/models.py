@@ -6,7 +6,7 @@ class employee(models.Model):
     name=models.CharField(max_length=20)
     age=models.IntegerField()
     email=models.CharField(max_length=20)
-    phno=models.IntegerField(max_length=10)
+    phno=models.IntegerField()
     address=models.TextField()
     username=models.CharField(max_length=10)
     password=models.CharField(max_length=10)

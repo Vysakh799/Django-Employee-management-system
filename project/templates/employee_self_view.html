@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>employee-home</title>
+    <link rel="stylesheet" href="{% static 'css/sample.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+   <div class="esv_main">
+    <div class="logout">
+        <a href="../login"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+    <div class="esv_container">
+        <h3>Welcome {{data.name}} !!</h3>
+        <table border="1">
+            <tr>
+                <th>Emp_id</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Phno</th>
+                <th>Address</th>
+                <th>Username</th>
+            </tr>
+            <tr>
+                <td>{{ data.emp_id }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.age }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.phno }}</td>
+                <td>{{ data.address }}</td>
+                <td>{{ data.username }}</td>
+                <td>
+                    <a href="../update_emp/{{data.pk}}">Update</a>
+                </td>
+            </tr>
+        </table>
+        <p>Delete account :<a href="../delete/{{data.pk}}">Click here!!</a></p>
+    </div>
+   </div>
+</body>
+</html>
