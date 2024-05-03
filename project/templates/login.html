@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
-    <link rel="stylesheet" href="{% static 'css/sample.css' %}">
+    <link rel="stylesheet" href="{% static 'employee_css/css/sample.css' %}">
 </head>
 <body>
     <div class="main">
         <div class="container">
             <h3>Login</h3>
-            <form action="../login" method="POST">
+            <form action="../" method="POST">
                 {% csrf_token %}
                 <div class="lg_boxes">
                     <input type="text" name="username" id="" placeholder="Username" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
@@ -20,6 +20,7 @@
                 </div>
             </form>
             <p>New to the company ??? Pls : <a href="register" style="font-size: 12px;">sign up</a></p>
+            <p><a href="">Forgot password??</a></p>
         </div>
     </div>
 </body>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>register-employee</title>
-    <link rel="stylesheet" href="{% static 'css/sample.css' %}">
+    <link rel="stylesheet" href="{% static 'employee_css/css/sample.css' %}">
 </head>
 <body>
     <div class="main">
@@ -14,13 +14,13 @@
             <form action="../register" method="POST">
                 {% csrf_token %}
                 <div class="lg_boxes1">
-                    <input type="text" name="name" id="" placeholder="Name" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <input type="number" name="age" id="" placeholder="Age" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <input type="email" name="email" id="" placeholder="Email" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <input type="text" name="phno" id="" placeholder="Phno" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <textarea name="address" id="" cols="10" rows="0" placeholder="Address" style="border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);"></textarea>
-                    <input type="text" name="username" id="" placeholder="Username" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <input type="password" name="password" id="o1" placeholder="Password" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="text" name="name" id="" placeholder="Name" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="number" name="age" id="" placeholder="Age" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="email" name="email" id="" placeholder="Email" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="text" name="phno" id="" placeholder="Phno" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <textarea name="address" id="" cols="10" rows="0" required placeholder="Address" style="border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);"></textarea>
+                    <input type="text" name="username" id="" placeholder="Username" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="password" name="password" id="o1" placeholder="Password" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
                     <input type="submit" name="" value="Signup"  id="btn1">
                 </div>
             </form>

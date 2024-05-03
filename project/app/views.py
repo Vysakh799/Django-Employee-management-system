@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
 # Create your views here.
+
+
+#Logging and Registration
+
 def login(request):
     if request.method=='POST':
         username=request.POST['username']
@@ -9,13 +13,17 @@ def login(request):
         print(username,password)
         try:
             data=employee.objects.get(username=username,password=password)
-            return render(request,'employee_self_view.html',{'data':data})
+            return redirect(employee_home)
         #     # return HttpResponse('successfull')
         except:
             # return HttpResponse('loggedin')
-            return HttpResponse('Invalid Username or password')    
+            if username=='admin123' and password=='admin@123':
+                return redirect(admin_home)
+            else:
+                return HttpResponse('Invalid Username or password')    
     else:
         return render(request,"login.html")
+    
 def register(request):
     if request.method=='POST':
         name=request.POST['name']
@@ -38,9 +46,22 @@ def register(request):
         return redirect(login)
     else:
         return render(request,'register.html')
+    
+
+#Admin Section
+
+
+def admin_home(request):
+    return render(request,'admin_template/admin_home.html')
+
+#Employee Section
+
+
+def employee_home(request):
+    return render(request,'employee_template/employee_self_view.html')
 def employeeselfview(request,data):
     data=employee.objects.get(pk=data)
-    return render(request,'employee_self_view.html',{'data':data})
+    return render(request,'employee_template/employee_self_view.html',{'data':data})
 def update_emp(request,pk):
     data=employee.objects.get(pk=pk)
     emp=data
@@ -52,7 +73,7 @@ def update_emp(request,pk):
         address=request.POST['address']
         data=employee.objects.filter(pk=pk).update(name=name,age=age,email=email,phno=phno,address=address)
         return redirect('../employeeselfview/{}'.format(data))
-    return render(request,'update_emp.html',{'emp':emp})
+    return render(request,'employee_template/update_emp.html',{'emp':emp})
 def delete(request,pk):
     employee.objects.filter(pk=pk).delete()
     return redirect(login)
