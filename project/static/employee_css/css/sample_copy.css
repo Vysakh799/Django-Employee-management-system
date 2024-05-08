@@ -8,10 +8,6 @@ body{
     font-weight: 500;
     font-style: normal;
 }
-.alert{
-    margin: 0px;
-    padding: 0px;
-}
 .main{
     display: flex;
     flex-direction: column;

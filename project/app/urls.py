@@ -12,6 +12,8 @@ urlpatterns = [
     path('update_emp/<pk>',views.update_emp),
     path('delete/<pk>',views.delete),
     path('employee_home',views.employee_home),
+    path('frgtpsw',views.frgtpsw),
+    
     #Admin Section
     path('admin_home',views.admin_home),
     

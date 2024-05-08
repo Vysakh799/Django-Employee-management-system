@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
-# Create your views here.
+from django.contrib import messages
 
 
 #Logging and Registration
@@ -20,7 +20,8 @@ def login(request):
             if username=='admin123' and password=='admin@123':
                 return redirect(admin_home)
             else:
-                return HttpResponse('Invalid Username or password')    
+                messages.success(request,"Invalid Username")  
+                return redirect(login)  
     else:
         return render(request,"login.html")
     
@@ -77,3 +78,24 @@ def update_emp(request,pk):
 def delete(request,pk):
     employee.objects.filter(pk=pk).delete()
     return redirect(login)
+
+#Employee frgt password section
+def frgtpsw(request):
+    if request.method=="POST":
+        username=request.POST['username']
+        n_password=request.POST['n_password']
+        c_password=request.POST['c_password']
+        try:
+            data=employee.objects.get(username=username)
+            if n_password==c_password:
+                employee.objects.filter(username=username).update(password=c_password)
+            else:
+                return HttpResponse("Passwords doesnt match")
+        except:
+            return HttpResponse("Invalid username")
+        return redirect(login)
+        
+
+
+    else:
+        return render(request,'employee_template/frgtpsw.html')

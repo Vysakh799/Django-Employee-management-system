@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forgetpassword</title>
+    <link rel="stylesheet" href="{% static 'employee_css/css/sample.css' %}">
+</head>
+<body>
+    <div class="main">
+        <div class="container1">
+            <h3>Forgot Password</h3>
+            <form action="../frgtpsw" method="POST">
+                {% csrf_token %}
+                <div class="lg_boxes">
+                    <input type="text" name="username" id="" placeholder="Username" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                </div>
+                <div class="lg_boxes">
+                    <input type="password" name="n_password" id="" placeholder="New password" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="password" name="c_password" id="o1" placeholder="Conform password" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
+                    <input type="submit" name="" value="Reset Password"  id="btn1">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
