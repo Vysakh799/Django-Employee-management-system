@@ -1,0 +1,66 @@
+
+.nav{
+    background-color: rgb(23, 112, 195);
+    display: flex;
+    justify-content: space-between;
+}
+.func{
+    display: flex;
+    /* background-color: rgb(196, 196, 233); */
+    width: 45%;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 400;
+    color: white;
+
+}
+
+.func div{
+    margin-top: 10px;
+}
+.func a{
+    color: white;
+    text-decoration: none;
+}
+.logo{
+    /* background-color: red; */
+    width: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo p{
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+}
+.rightside{
+    /* background-color: red; */
+    width: 8%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.logo2, .logout{
+    font-size: 20px;
+    background-color: white;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+/* view employee section */
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgb(24, 102, 170); */
+    height: 94vh;
+}
+thead tr th{
+    background-color: red;
+}

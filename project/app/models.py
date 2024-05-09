@@ -10,4 +10,6 @@ class employee(models.Model):
     address=models.TextField()
     username=models.CharField(max_length=10)
     password=models.CharField(max_length=10)
+    def __str__(self):
+        return self.name
 
