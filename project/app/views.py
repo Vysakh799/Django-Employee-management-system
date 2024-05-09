@@ -38,7 +38,8 @@ def register(request):
         username=request.POST['username']
         try:
             data=employee.objects.get(username=username)
-            return HttpResponse('Username exist')
+            messages.success(request,"Username Exist")  
+            return redirect(register)
         except:
             pass
         password=request.POST['password']
