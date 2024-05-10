@@ -13,8 +13,13 @@ def login(request):
         print(username,password)
         try:
             data=employee.objects.get(username=username,password=password)
+            if data.status=='active':
+                request.session['user']=username
+                return redirect(employeeselfview)
+            else:
+                messages.success(request,"Approval Pending")
+                return redirect(login)  
 
-            return redirect(employeeselfview)
         #     # return HttpResponse('successfull')
         except:
             # return HttpResponse('loggedin')
@@ -39,19 +44,31 @@ def register(request):
         address=request.POST['address']
         username=request.POST['username']
         password=request.POST['password']
-
+        status='deactive'
         try:
             data=employee.objects.get(username=username)
             messages.success(request,"Username Exist")  
             return redirect(register)
         except:
-            data=employee.objects.create(emp_id=emp_id,name=name,age=age,email=email,phno=phno,address=address,username=username,password=password)
+            data=employee.objects.create(emp_id=emp_id,name=name,age=age,email=email,phno=phno,address=address,username=username,password=password,status=status)
             data.save()
+            messages.success(request,"Approval Pending")  
+
 
         
         return redirect(login)
     else:
         return render(request,'register.html')
+
+def logout(request):
+    if 'user' in request.session:
+        del request.session['user']
+        return redirect(login)
+    elif 'admin' in request.session:
+        del request.session['admin']
+        return redirect(login)
+    else:
+        return redirect(login)
     
 
 #Admin Section
@@ -66,25 +83,16 @@ def view_employee(request):
     data=employee.objects.all()
     return render(request,'admin_template/view_employee.html',{'data':data})
 def new_request(request):
-    return render(request,'admin_template/new_request.html')
+    data=employee.objects.filter(status='deactive')
+
+    return render(request,'admin_template/new_request.html',{'data':data})
 def add_work(request):
     return render(request,'admin_template/add_work.html')
+def activate_emp(request,pk):
+    employee.objects.filter(pk=pk).update(status='active')
+    messages.success(request,"Approval successfull")  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return redirect(new_request)
 
 
 
@@ -95,23 +103,34 @@ def add_work(request):
 
 
 
-def employeeselfview(request,data):
-    data=employee.objects.get(pk=data)
-    return render(request,'employee_template/employee_self_view.html',{'data':data})
-def update_emp(request,pk):
-    data=employee.objects.get(pk=pk)
-    emp=data
-    if request.method=='POST':
-        name=request.POST['name']
-        age=request.POST['age']
-        email=request.POST['email']
-        phno=request.POST['phno']
-        address=request.POST['address']
-        data=employee.objects.filter(pk=pk).update(name=name,age=age,email=email,phno=phno,address=address)
-        return redirect('../employeeselfview/{}'.format(data))
-    return render(request,'employee_template/update_emp.html',{'emp':emp})
-def delete(request,pk):
-    employee.objects.filter(pk=pk).delete()
+def employeeselfview(request):
+    if 'user' in request.session:
+        data=employee.objects.get(username=request.session['user'])
+
+        return render(request,'employee_template/employee_self_view.html',{'data':data})
+    else:
+        return redirect(login)
+    
+def update_emp(request):
+    if 'user' in request.session:
+        data=employee.objects.get(username=request.session['user'])
+        emp=data
+        if request.method=='POST':
+            name=request.POST['name']
+            age=request.POST['age']
+            email=request.POST['email']
+            phno=request.POST['phno']
+            address=request.POST['address']
+            data=employee.objects.filter(username=request.session['user']).update(name=name,age=age,email=email,phno=phno,address=address)
+            return redirect(employeeselfview)
+        return render(request,'employee_template/update_emp.html',{'emp':emp})
+    else:
+        return redirect(login)
+def delete(request):
+    if 'user' in request.session:
+        employee.objects.filter(username=request.session['user']).delete()
+        del request.session['user']
+
     return redirect(login)
 
 #Employee frgt password section

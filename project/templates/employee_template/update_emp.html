@@ -11,7 +11,7 @@
     <div class="main">
         <div class="container2">
             <h3>Update</h3>
-            <form action="../update_emp/{{emp.pk}}" method="POST">
+            <form action="../update_emp" method="POST">
                 {% csrf_token %}
                 <div class="lg_boxes1">
                     <input type="text" name="name" id="" value="{{emp.name}}" placeholder="Name" style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
