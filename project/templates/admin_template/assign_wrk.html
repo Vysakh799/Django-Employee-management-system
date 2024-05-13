@@ -48,16 +48,50 @@
            </div>
         </div>
         <div class="container3">
-            <h3>Add work</h3>
-            <form action="../add_work" method="POST">
-                {% csrf_token %}
+            <h3>Assign work</h3>
                 <div class="wrk_boxes1">
-                    <input type="text" name="name" id="" placeholder="Name of the work" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <input type="date" name="end_date" id="" placeholder="Deadline" required style="height: 30px;border-radius: 10px;padding-left: 9px; border: 2px solid rgb(187, 186, 186);">
-                    <input type="submit" name="" value="Add work"  id="btn1">
+                    <table>
+                        <tr>
+                            <th>Work</th>
+                            <th>Employee</th>
+                        </tr>
+                        {% for i in data %}
+                        <tr>
+                            <td>{{i.name}}</td>
+                            <td><form action="../assign_wrk" method="POST">
+                                {% csrf_token %}
+                                <select name="emp_name" id="">
+                                    <option selected disabled >select Employee</option>
+                                    {% for j in data1 %}
+                                    <option value="{{j.pk}}">{{j.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="text" name="work1" value="{{i.pk}}" hidden>
+                                <input type="submit" value="Assign">
+                            </form></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
-            </form>
         </div>
+            
+                <div class="wrk_boxes1 container" >
+                    <h3>Assigned works</h3>
+                    <table class="table table-bordered" style="text-align: center;">
+                        <thead class="table-info">
+                        <tr>
+                            <th>Work</th>
+                            <th>Employee</th>
+                        </tr>
+                        </thead>
+                        {% for i in work %}
+                        <tr>
+                          <td>{{i.wrk.name}}</td>
+                          <td>{{i.emp.name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
     </div>
 </body>
 </html>

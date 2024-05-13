@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
 from django.contrib import messages
+import datetime
 
 
 #Logging and Registration
@@ -87,7 +88,46 @@ def new_request(request):
 
     return render(request,'admin_template/new_request.html',{'data':data})
 def add_work(request):
-    return render(request,'admin_template/add_work.html')
+    if request.method=='POST':
+        name=request.POST['name']
+        x=datetime.datetime.now()
+        date=(x.strftime("%x"))
+        date_string = date
+
+        try:
+        # Split the string at "/"
+            parts = date_string.split("/")
+
+            # Assuming two-digit year, prepend "20"
+            year = "20" + parts[2]
+
+            # Create the formatted date string
+            formatted_date = f"{year}-{parts[0]}-{parts[1]}"
+        except IndexError:
+             print("Invalid date format. Please use MM/DD/YY.")
+        end_date=request.POST['end_date']
+        data=work.objects.create(name=name,start_date=formatted_date,end_date=end_date)
+        data.save()
+        messages.success(request,"Work Added") 
+        return redirect(add_work)
+    else:
+        return render(request,'admin_template/add_work.html')
+def assign_wrk(request):
+    if request.method=="POST":
+        emp_name=request.POST['emp_name']
+        work1=request.POST['work1']
+        data=assigned_work.objects.create(wrk=work.objects.get(pk=work1),emp=employee.objects.get(pk=emp_name))
+        data.save()
+        messages.success(request,"Work Assigned") 
+        return redirect(assign_wrk)
+        
+
+    data1=employee.objects.filter(status='active')
+    data=work.objects.all()
+    data2=assigned_work.objects.all()
+    return render(request,'admin_template/assign_wrk.html',{'data':data,'data1':data1,'work':data2})
+
+
 def activate_emp(request,pk):
     employee.objects.filter(pk=pk).update(status='active')
     messages.success(request,"Approval successfull")  

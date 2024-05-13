@@ -66,4 +66,26 @@ thead tr th{
 }
 .container3{
     background-color: rgb(23, 112, 195);
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    padding: 30px;
+    margin: auto;
+    margin-top: 200px;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    height:400px;
+}
+.wrk_boxes1{
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    justify-content: space-around;
+}
+input[type='text'],input[type='date']{
+    padding: 25px;
+}
+input[type='submit']{
+    height: 50px;
 }

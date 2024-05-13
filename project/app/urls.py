@@ -20,5 +20,6 @@ urlpatterns = [
     path('add_work',views.add_work),
     path('new_request',views.new_request),
     path('activate_emp/<pk>',views.activate_emp),
+    path('assign_wrk',views.assign_wrk)
     
 ]

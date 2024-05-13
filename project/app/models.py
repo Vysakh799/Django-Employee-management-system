@@ -13,4 +13,15 @@ class employee(models.Model):
     status=models.CharField(max_length=20)
     def __str__(self):
         return self.name
+class work(models.Model):
+    name=models.TextField()
+    end_date=models.DateField()
+    start_date=models.DateField()
+    def __str__(self):
+        return self.name
+class assigned_work(models.Model):
+    wrk=models.ForeignKey(work,on_delete=models.CASCADE)
+    emp=models.ForeignKey(employee,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.wrk.name
 
