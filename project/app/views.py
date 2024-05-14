@@ -127,17 +127,27 @@ def assign_wrk(request):
     data2=assigned_work.objects.all()
     return render(request,'admin_template/assign_wrk.html',{'data':data,'data1':data1,'work':data2})
 
+def assign_work2(request):
+    data1=employee.objects.filter(status='active')
+    data=work.objects.all()
+    data2=assigned_work.objects.all()
+    return render(request,'admin_template/assign_wrk_copy.html',{'data':data,'data1':data1,'work':data2})
+def assign_work3(request,pk):
+    if request.method=='POST':
+        checkbox=request.POST.getlist('checkbox')
+        assigned_work.objects.filter(wrk=work.objects.get(pk=pk)).delete()
+        for i in checkbox:
+            
+            data=assigned_work.objects.create(wrk=work.objects.get(pk=pk),emp=employee.objects.get(pk=i))
+            data.save()
+        messages.success(request,"Work Assigned") 
+        return redirect(assign_work2)
 
 def activate_emp(request,pk):
     employee.objects.filter(pk=pk).update(status='active')
     messages.success(request,"Approval successfull")  
 
     return redirect(new_request)
-
-
-
-
-
 
 #Employee Section
 
@@ -146,8 +156,8 @@ def activate_emp(request,pk):
 def employeeselfview(request):
     if 'user' in request.session:
         data=employee.objects.get(username=request.session['user'])
-
-        return render(request,'employee_template/employee_self_view.html',{'data':data})
+        data1=assigned_work.objects.filter(emp=data)
+        return render(request,'employee_template/employee_self_view.html',{'data':data,'data1':data1})
     else:
         return redirect(login)
     
