@@ -5,6 +5,10 @@ from django.contrib import messages
 import datetime
 
 
+from django.conf import settings
+from django.core.mail import send_mail
+
+
 #Logging and Registration
 
 def login(request):
@@ -55,6 +59,13 @@ def register(request):
             data.save()
             messages.success(request,"Approval Pending")  
 
+
+
+            subject = 'New User Registered'
+            message = f'New user registered to employee management system'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = ["elayedathvysakh@gmail.com", ]
+            send_mail( subject, message, email_from, recipient_list )
 
         
         return redirect(login)
