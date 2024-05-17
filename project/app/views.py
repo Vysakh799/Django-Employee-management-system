@@ -81,67 +81,84 @@ def admin_home(request):
     else:
         return redirect(login)
 def view_employee(request):
-    data=employee.objects.all()
-    return render(request,'admin_template/view_employee.html',{'data':data})
-def new_request(request):
-    data=employee.objects.filter(status='deactive')
-
-    return render(request,'admin_template/new_request.html',{'data':data})
-def add_work(request):
-    if request.method=='POST':
-        name=request.POST['name']
-        x=datetime.datetime.now()
-        date=(x.strftime("%x"))
-        date_string = date
-
-        try:
-        # Split the string at "/"
-            parts = date_string.split("/")
-
-            # Assuming two-digit year, prepend "20"
-            year = "20" + parts[2]
-
-            # Create the formatted date string
-            formatted_date = f"{year}-{parts[0]}-{parts[1]}"
-        except IndexError:
-             print("Invalid date format. Please use MM/DD/YY.")
-        end_date=request.POST['end_date']
-        data=work.objects.create(name=name,start_date=formatted_date,end_date=end_date)
-        data.save()
-        messages.success(request,"Work Added") 
-        return redirect(add_work)
+    if 'admin' in request.session:
+        data=employee.objects.all()
+        return render(request,'admin_template/view_employee.html',{'data':data})
     else:
-        return render(request,'admin_template/add_work.html')
-def assign_wrk(request):
-    if request.method=="POST":
-        emp_name=request.POST['emp_name']
-        work1=request.POST['work1']
-        data=assigned_work.objects.create(wrk=work.objects.get(pk=work1),emp=employee.objects.get(pk=emp_name))
-        data.save()
-        messages.success(request,"Work Assigned") 
-        return redirect(assign_wrk)
-        
+        return redirect(login)
+def new_request(request):
+    if 'admin' in request.session:
+        data=employee.objects.filter(status='deactive')
+        return render(request,'admin_template/new_request.html',{'data':data})
+    else:
+        return redirect(login)
+def add_work(request):
+    if 'admin' in request.session:
+        if request.method=='POST':
+            name=request.POST['name']
+            x=datetime.datetime.now()
+            date=(x.strftime("%x"))
+            date_string = date
 
-    data1=employee.objects.filter(status='active')
-    data=work.objects.all()
-    data2=assigned_work.objects.all()
-    return render(request,'admin_template/assign_wrk.html',{'data':data,'data1':data1,'work':data2})
+            try:
+            # Split the string at "/"
+                parts = date_string.split("/")
+
+                # Assuming two-digit year, prepend "20"
+                year = "20" + parts[2]
+
+                # Create the formatted date string
+                formatted_date = f"{year}-{parts[0]}-{parts[1]}"
+            except IndexError:
+                print("Invalid date format. Please use MM/DD/YY.")
+            end_date=request.POST['end_date']
+            data=work.objects.create(name=name,start_date=formatted_date,end_date=end_date)
+            data.save()
+            messages.success(request,"Work Added") 
+            return redirect(add_work)
+        else:
+            return render(request,'admin_template/add_work.html')
+    else:
+        return redirect(login)
+def assign_wrk(request):
+    if 'admin' in request.session:
+        if request.method=="POST":
+            emp_name=request.POST['emp_name']
+            work1=request.POST['work1']
+            data=assigned_work.objects.create(wrk=work.objects.get(pk=work1),emp=employee.objects.get(pk=emp_name))
+            data.save()
+            messages.success(request,"Work Assigned") 
+            return redirect(assign_wrk)
+            
+
+        data1=employee.objects.filter(status='active')
+        data=work.objects.all()
+        data2=assigned_work.objects.all()
+        return render(request,'admin_template/assign_wrk.html',{'data':data,'data1':data1,'work':data2})
+    else:
+        return render(login)
 
 def assign_work2(request):
-    data1=employee.objects.filter(status='active')
-    data=work.objects.all()
-    data2=assigned_work.objects.all()
-    return render(request,'admin_template/assign_wrk_copy.html',{'data':data,'data1':data1,'work':data2})
+    if 'admin' in request.session:
+        data1=employee.objects.filter(status='active')
+        data=work.objects.all()
+        data2=assigned_work.objects.all()
+        return render(request,'admin_template/assign_wrk_copy.html',{'data':data,'data1':data1,'work':data2})
+    else:
+        return redirect(login)
 def assign_work3(request,pk):
-    if request.method=='POST':
-        checkbox=request.POST.getlist('checkbox')
-        assigned_work.objects.filter(wrk=work.objects.get(pk=pk)).delete()
-        for i in checkbox:
-            
-            data=assigned_work.objects.create(wrk=work.objects.get(pk=pk),emp=employee.objects.get(pk=i))
-            data.save()
-        messages.success(request,"Work Assigned") 
-        return redirect(assign_work2)
+    if 'admin' in request.session:
+        if request.method=='POST':
+            checkbox=request.POST.getlist('checkbox')
+            assigned_work.objects.filter(wrk=work.objects.get(pk=pk)).delete()
+            for i in checkbox:
+                
+                data=assigned_work.objects.create(wrk=work.objects.get(pk=pk),emp=employee.objects.get(pk=i))
+                data.save()
+            messages.success(request,"Work Assigned") 
+            return redirect(assign_work2)
+    else:
+        return redirect(login)
 
 def activate_emp(request,pk):
     employee.objects.filter(pk=pk).update(status='active')
