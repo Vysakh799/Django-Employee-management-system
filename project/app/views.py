@@ -136,7 +136,7 @@ def assign_wrk(request):
         data2=assigned_work.objects.all()
         return render(request,'admin_template/assign_wrk.html',{'data':data,'data1':data1,'work':data2})
     else:
-        return render(login)
+        return redirect(login)
 
 def assign_work2(request):
     if 'admin' in request.session:
